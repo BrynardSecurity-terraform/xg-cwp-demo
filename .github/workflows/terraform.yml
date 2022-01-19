@@ -7,10 +7,6 @@ on:
   pull_request_review:
     types: [submitted]
 
-defaults:
-  run:
-    working-directory: /
-
 jobs:
   terraform:
     name: "Terraform"
