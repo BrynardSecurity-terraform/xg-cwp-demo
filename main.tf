@@ -2,7 +2,9 @@ terraform {
     cloud {
         organization = "sophos-iaas"
 
-        workspace = "ralph_demo_backend"
+        workspace {
+            name = "ralph_demo_backend"
+        }
     }
 }
 
