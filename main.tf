@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "us-west-1"
+  region = var.aws_region
 }
 
 data "aws_caller_identity" "current" {}
@@ -63,6 +63,9 @@ module "vpc" {
   flow_log_destination_arn         = local.s3_arn
   flow_log_cloudwatch_iam_role_arn = local.iam_arn
   flow_log_file_format             = "plain-text"
+  vpc_flow_log_tags = {
+      created_by = "${var.owner}"
+  }
 
   tags = merge(
     local.tags,
