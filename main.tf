@@ -1,3 +1,11 @@
+terraform {
+    cloud {
+        organization = "sophos-iaas"
+
+        workspaces = "ralph_demo_backend"
+    }
+}
+
 provider "aws" {
   region = var.aws_region
 }
@@ -64,7 +72,7 @@ module "vpc" {
   flow_log_cloudwatch_iam_role_arn = local.iam_arn
   flow_log_file_format             = "plain-text"
   vpc_flow_log_tags = {
-      created_by = optix
+      created_by = "optix"
   }
 
   tags = merge(
