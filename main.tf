@@ -64,7 +64,7 @@ module "vpc" {
   flow_log_cloudwatch_iam_role_arn = local.iam_arn
   flow_log_file_format             = "plain-text"
   vpc_flow_log_tags = {
-      created_by = "${var.owner}"
+      created_by = optix
   }
 
   tags = merge(
