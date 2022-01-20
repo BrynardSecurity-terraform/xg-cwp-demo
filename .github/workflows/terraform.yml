@@ -9,8 +9,7 @@ on:
 
 defaults:
   run:
-    working-directory: ${CURDIR}
-
+  
 jobs:
   terraform:
     name: "Terraform"
