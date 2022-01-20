@@ -7,11 +7,6 @@ on:
   pull_request_review:
     types: [submitted]
 
-<<<<<<< HEAD
-=======
-defaults:
-  run:
->>>>>>> origin/main
 jobs:
   terraform:
     name: "Terraform"
