@@ -7,6 +7,10 @@ on:
   pull_request_review:
     types: [submitted]
 
+defaults:
+  run:
+    working-directory: terraform/resource_files
+
 jobs:
   terraform:
     name: "Terraform"
@@ -23,7 +27,7 @@ jobs:
 
       - name: Terraform Format
         id: fmt
-        run: terraform fmt -write=true
+        run: terraform fmt -write=true -check
 
       - name: Terraform Init
         id: init
@@ -50,18 +54,24 @@ jobs:
             #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
             #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
             #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+
             <details><summary>Show Plan</summary>
+
             \`\`\`\n
             ${process.env.PLAN}
             \`\`\`
+
             </details>
+
             *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+
             github.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: output
             })
+
       - name: Terraform Plan Status
         if: steps.plan.outcome == 'failure'
         run: exit 1
