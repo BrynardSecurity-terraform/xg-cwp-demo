@@ -65,7 +65,7 @@ module "vpc" {
   flow_log_destination_arn          = local.s3_arn
   flow_log_cloudwatch_iam_role_arn  = local.iam_arn
   flow_log_file_format              = "plain-text"
-  flow_log_max_aggregation_interval = 10
+  flow_log_max_aggregation_interval = 600
   flow_log_log_format               = local.flow_log_format
   flow_log_traffic_type             = local.traffic_type
 
