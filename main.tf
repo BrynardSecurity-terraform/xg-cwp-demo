@@ -1,13 +1,3 @@
-terraform {
-    cloud {
-        organization = "sophos-iaas"
-
-        workspaces {
-            name = "ralph_demo_backend"
-        }
-    }
-}
-
 provider "aws" {
   region = var.aws_region
 }
