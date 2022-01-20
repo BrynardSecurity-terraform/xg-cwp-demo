@@ -9,7 +9,6 @@ on:
 
 defaults:
   run:
-
 jobs:
   terraform:
     name: "Terraform"
