@@ -9,7 +9,7 @@ on:
 
 defaults:
   run:
-    working-directory: terraform/resource_files
+    working-directory:
 
 jobs:
   terraform:
