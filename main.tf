@@ -30,6 +30,8 @@ locals {
     Contact     = var.contact
     Region      = var.aws_region
   }
+  flow_log_format = "$${version} $${account-id} $${interface-id} $${srcaddr} $${dstaddr} $${srcport} $${dstport} $${protocol} $${packets} $${bytes} $${start} $${end} $${action} $${log-status} $${vpc-id} $${subnet-id} $${instance-id} $${type} $${pkt-srcaddr} $${pkt-dstaddr} $${region} $${az-id} $${pkt-src-aws-service} $${pkt-dst-aws-service} $${flow-direction} $${traffic-path}"
+  traffic_type = "ACCEPT"
   s3_arn  = "arn:aws:s3:::${var.s3_bucket_prefix}-${var.account_id}-${var.aws_region}/sophos-optix-flowlogs/"
   iam_arn = "arn:aws:iam::${var.account_id}:role/Sophos-Optix-labda-to-cloudWatch"
 }
@@ -58,11 +60,15 @@ module "vpc" {
   default_security_group_ingress = []
   default_security_group_egress  = []
 
-  enable_flow_log                  = true
-  flow_log_destination_type        = "s3"
-  flow_log_destination_arn         = local.s3_arn
-  flow_log_cloudwatch_iam_role_arn = local.iam_arn
-  flow_log_file_format             = "plain-text"
+  enable_flow_log                   = true
+  flow_log_destination_type         = "s3"
+  flow_log_destination_arn          = local.s3_arn
+  flow_log_cloudwatch_iam_role_arn  = local.iam_arn
+  flow_log_file_format              = "plain-text"
+  flow_log_max_aggregation_interval = 10
+  flow_log_log_format               = local.flow_log_format
+  flow_log_traffic_type             = local.traffic_type
+
   vpc_flow_log_tags = {
       created_by = "optix"
   }
