@@ -1,5 +1,0 @@
-account_id  = "358385940343"
-aws_region  = "us-west-1"
-contact     = "ralph.brynard@sophos.com"
-environment = "development"
-owner       = "Ralph Brynard"
