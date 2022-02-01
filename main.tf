@@ -6,6 +6,9 @@ data "aws_caller_identity" "current" {}
 data "aws_availability_zones" "available" {
   state = "available"
 }
+data "http" "myip" {
+  url = "http://ipv4.icanhazip.com"
+}
 
 locals {
   cidr_c_private_subnets = 1
@@ -50,14 +53,21 @@ module "vpc" {
   enable_dns_hostnames = true
   enable_dns_support   = true
 
-  enable_nat_gateway = false
+  enable_nat_gateway = true
   single_nat_gateway = false
 
   enable_vpn_gateway  = false
   enable_dhcp_options = false
 
-  manage_default_security_group  = false
-  default_security_group_ingress = []
+  manage_default_security_group  = true
+  default_security_group_name  = "sg-${var.account_id}-${var.environment}"
+  default_security_group_ingress = [
+    default_inbound = {
+      rule_action = "allow"
+      from_port   = 3389
+      to_port = 3389 "tcp"
+    }
+  ]
   default_security_group_egress  = []
 
   enable_flow_log                   = true
@@ -77,13 +87,4 @@ module "vpc" {
     local.tags,
     var.default_tags
   )
-}
-
-module "alb" {
-  source = "terraform-aws-modules/alb/aws"
-  version = "~> 6.0"
-
-  name = "alb-vault-${var.environment}-${local.build_date}"
-  vpc_id = "${module.vpc.vpc_id}"
-  
 }
